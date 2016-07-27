@@ -1,0 +1,23 @@
+{
+  "name": "typed-stylus-modules",
+  "version": "0.1.10",
+  "description": "A wrapper around typed-css-modules for use with stylus",
+  "bin": {
+    "tsm": "cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZachBray/typed-stylus-modules.git"
+  },
+  "keywords": [
+    "typed",
+    "css",
+    "stylus",
+    "modules"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ZachBray/typed-stylus-modules/issues"
+  },
+  "homepage": "https://github.com/ZachBray/typed-stylus-modules#readme"
+}
