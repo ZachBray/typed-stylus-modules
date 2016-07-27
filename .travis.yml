@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+- "6"
+deploy:
+  provider: npm
+  email: zachbray@googlemail.com
+  api_key: $NPM_KEY
+  on:
+    tags: true
