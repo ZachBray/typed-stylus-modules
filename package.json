@@ -1,6 +1,6 @@
 {
   "name": "typed-stylus-modules",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "A wrapper around typed-css-modules for use with stylus",
   "bin": {
     "tsm": "cli.js"
