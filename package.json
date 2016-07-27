@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/ZachBray/typed-stylus-modules/issues"
   },
-  "homepage": "https://github.com/ZachBray/typed-stylus-modules#readme"
+  "homepage": "https://github.com/ZachBray/typed-stylus-modules#readme",
+  "dependencies": {
+    "typed-css-modules": "0.1.10"
+  }
 }
