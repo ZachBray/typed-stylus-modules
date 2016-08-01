@@ -20,7 +20,7 @@ var yarg = yargs.usage('Create .css.d.ts from CSS modules *.css files.\nUsage: $
   .alias('p', 'pattern').describe('p', 'Glob pattern with css files')
   .alias('w', 'watch').describe('w', 'Watch input directory\'s css files or pattern').boolean('w')
   .alias('h', 'help').help('h')
-  .version(function() require('../package.json').version)
+  .version(function() { return require('package.json').version; })
 var argv = yarg.argv;
 var creator;
 
