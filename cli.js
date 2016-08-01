@@ -1,20 +1,16 @@
-#!/bin/sh
-":" //# comment; exec /usr/bin/env node --harmony "$0" "$@"
-
+#!/usr/bin/env node
 // Forked from: https://github.com/Quramy/typed-css-modules/blob/master/src/cli.js
 
-'use strict';
+var path = require('path');
+var gaze = require('gaze');
+var glob = require('glob');
+var yargs = require('yargs');
+var chalk = require('chalk');
+var DtsCreator  = require('typed-css-modules');
+var stylus = require('stylus');
+var fs = require('fs');
 
-const path = require('path');
-const gaze = require('gaze');
-const glob = require('glob');
-const yargs = require('yargs');
-const chalk = require('chalk');
-const DtsCreator  = require('typed-css-modules');
-const stylus = require('stylus');
-const fs = require('fs');
-
-let yarg = yargs.usage('Create .css.d.ts from CSS modules *.css files.\nUsage: $0 [options] <input directory>')
+var yarg = yargs.usage('Create .css.d.ts from CSS modules *.css files.\nUsage: $0 [options] <input directory>')
   .example('$0 src/styles')
   .example('$0 src -o dist')
   .example('$0 -p styles/**/*.icss -w')
@@ -24,72 +20,72 @@ let yarg = yargs.usage('Create .css.d.ts from CSS modules *.css files.\nUsage: $
   .alias('p', 'pattern').describe('p', 'Glob pattern with css files')
   .alias('w', 'watch').describe('w', 'Watch input directory\'s css files or pattern').boolean('w')
   .alias('h', 'help').help('h')
-  .version(() => require('../package.json').version)
-let argv = yarg.argv;
-let creator;
+  .version(function() require('../package.json').version)
+var argv = yarg.argv;
+var creator;
 
-let writeFile = f => {
+var writeFile = function(f) {
   console.log('Loading ' + f);
-  fs.readFile(f, 'utf-8', (err, source) => {
+  fs.readFile(f, 'utf-8', function(err, source) {
     if (err) {
       console.log('[Error] ' + err);
       return;
     }
     console.log('Rendering ' + f);
-    stylus.render(source, { filename: f }, (err, css) => {
+    stylus.render(source, { filename: f }, function(err, css) {
       if (err) {
         console.log('[Error] ' + err);
         return;
       }
-      let cssFile = f + '.css';
+      var cssFile = f + '.css';
       console.log('Writing ' + cssFile);
-      fs.writeFile(cssFile, css, 'utf-8', err => {
+      fs.writeFile(cssFile, css, 'utf-8', function(err) {
         if (err) {
           console.log('[Error] ' + err);
           return;
         }
         console.log('Extracting ' + cssFile);
-        creator.create(cssFile, null, !!argv.w).then(content => {
-          let outFile = f + '.d.ts';
-          content.messageList.forEach(message => {
+        creator.create(cssFile, null, !!argv.w).then(function (content) {
+          var outFile = f + '.d.ts';
+          content.messageList.forEach(function (message) {
             console.log('[Warn] ' + chalk.red(message));
           });
-          fs.writeFile(outFile, content.formatted, 'utf-8', err => {
+          fs.writeFile(outFile, content.formatted, 'utf-8', function(err) {
             if (err) {
               console.log('[Error] ' + err);
             }
             console.log('Wrote ' + chalk.green(outFile));
           });
-          fs.unlink(cssFile, err => {
+          fs.unlink(cssFile, function(err) {
             if (err) {
               console.log('[Error] ' + err);
             }
           });
         })
-        .catch(reason => console.log('[Error] ' + reason));
+        .catch(function(reason) { console.log('[Error] ' + reason); });
       });
     });
   });
 };
 
-let main = () => {
-  let rootDir;
+var main = function() {
+  var rootDir;
   if(argv.h) {
     yarg.showHelp();
     return;
   }
 
-  let searchDir = './';
+  var searchDir = './';
   if(argv._ && argv._[0]) {
     searchDir = argv._[0];
   }
     
-  let filesPattern = path.join(searchDir, argv.p || '**/*.styl');
+  var filesPattern = path.join(searchDir, argv.p || '**/*.styl');
   rootDir = process.cwd();
   creator = new DtsCreator({rootDir, searchDir, outDir: argv.o});
 
   if(!argv.w) {
-    glob(filesPattern, null, (err, files) => {
+    glob(filesPattern, null, function(err, files) {
       if(err) {
         console.error(err);
         return;
