@@ -33,7 +33,7 @@ var writeFile = function(f) {
       return;
     }
     console.log('Rendering ' + f);
-    stylus.use(nib).render(source, { filename: f }, function(err, css) {
+    stylus(source).use(nib).set('filename', f).render(function(err, css) {
       if (err) {
         console.log('[Error] ' + err);
         return;
