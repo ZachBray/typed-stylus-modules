@@ -8,6 +8,7 @@ var yargs = require('yargs');
 var chalk = require('chalk');
 var DtsCreator  = require('typed-css-modules');
 var stylus = require('stylus');
+var nib = require('nib');
 var fs = require('fs');
 
 var yarg = yargs.usage('Create .css.d.ts from CSS modules *.css files.\nUsage: $0 [options] <input directory>')
@@ -32,7 +33,7 @@ var writeFile = function(f) {
       return;
     }
     console.log('Rendering ' + f);
-    stylus.render(source, { filename: f }, function(err, css) {
+    stylus.use(nib).render(source, { filename: f }, function(err, css) {
       if (err) {
         console.log('[Error] ' + err);
         return;
