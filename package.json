@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/ZachBray/typed-stylus-modules#readme",
   "dependencies": {
+    "nib": "^1.1.0",
     "typed-css-modules": "0.1.10"
   }
 }
